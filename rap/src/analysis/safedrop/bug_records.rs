@@ -1,7 +1,7 @@
 use rustc_span::Span;
 use rustc_span::symbol::Symbol;
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use crate::{rap_warn};
+use crate::rap_warn_;
 use super::{log::RapLogLevel, log::record_msg, log::RAP_LOGGER};
 use super::alias::ReturnResults;
 
@@ -40,18 +40,18 @@ impl BugRecords{
 
     pub fn df_bugs_output(&self, fn_name:Symbol) {
         if !self.df_bugs.is_empty() {
-            rap_warn!("Double free detected in function {:}", fn_name);
+            rap_warn_!("Double free detected in function {:}", fn_name);
             for i in self.df_bugs.iter() {
-                rap_warn!("Location: {:?}", i.1);
+                rap_warn_!("Location: {:?}", i.1);
             }
         }
     }
 
     pub fn uaf_bugs_output(&self, fn_name:Symbol) {
         if !self.uaf_bugs.is_empty() {
-            rap_warn!("Use after free detected in function {:?}", fn_name);
+            rap_warn_!("Use after free detected in function {:?}", fn_name);
             for i in self.uaf_bugs.iter() {
-                rap_warn!("Location: {:?}", i);
+                rap_warn_!("Location: {:?}", i);
             }
         }
 
@@ -59,11 +59,11 @@ impl BugRecords{
 
     pub fn dp_bug_output(&self, fn_name:Symbol) {
         for i in self.dp_bugs.iter() {
-            rap_warn!("Dangling pointer detected in function {:?}!!! 
+            rap_warn_!("Dangling pointer detected in function {:?}!!! 
                       Location: {:?}", fn_name, i);
         }
         for i in self.dp_bugs_unwind.iter() {
-            rap_warn!("Dangling pointer detected in function {:?}!!!
+            rap_warn_!("Dangling pointer detected in function {:?}!!!
                       Location: {:?} during unwinding.", fn_name, i);
         }
     }

@@ -33,6 +33,8 @@ walkdir = "2.3.2"
 rustc-demangle = "0.1.21"
 colorful = "0.2.1"
 stopwatch = "0.0.7"
+lazy_static = "1.4.0"
+env_logger = "0.11.3"
 
 [features]
 backtraces = ["snafu/backtraces", "snafu/backtraces-impl-backtrace-crate"]

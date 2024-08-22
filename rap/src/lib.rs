@@ -27,6 +27,7 @@ use analysis::rcanary::rCanary;
 use analysis::unsafety_isolation::UnsafetyIsolationCheck;
 use analysis::callgraph::CallGraph;
 use analysis::show_mir::ShowMir;
+use analysis::safedrop::SafeDropCheck;
 
 // Insert rustc arguments at the beginning of the argument list that RAP wants to be
 // set per default, for maximal validation power.
@@ -41,6 +42,7 @@ pub struct RapCallback {
     unsafety_isolation: bool,
     callgraph: bool,
     show_mir: bool,
+    safedrop: bool,
 }
 
 impl Default for RapCallback {
@@ -50,6 +52,7 @@ impl Default for RapCallback {
             unsafety_isolation: false,
             callgraph: false,
             show_mir: false,
+            safedrop: false,
         }
     }
 }
@@ -106,19 +109,27 @@ impl RapCallback {
     }
 
     pub fn enable_callgraph(&mut self) { 
-	self.callgraph = true; 
+	    self.callgraph = true; 
     }
 
     pub fn is_callgraph_enabled(&self) -> bool { 
-	self.callgraph 
+	    self.callgraph 
     }
 
     pub fn enable_show_mir(&mut self) { 
-	self.show_mir = true; 
+	    self.show_mir = true; 
     }
 
     pub fn is_show_mir_enabled(&self) -> bool { 
-	self.show_mir 
+	    self.show_mir 
+    }
+
+    pub fn enbale_safedrop(&mut self) {
+        self.safedrop = true;
+    }
+
+    pub fn is_safedrop_enabled(&self) -> bool {
+        self.safedrop
     }
 }
 
@@ -170,6 +181,10 @@ pub fn start_analyzer(tcx: TyCtxt, callback: RapCallback) {
 
     if callback.is_show_mir_enabled() {
         ShowMir::new(tcx).start();
+    }
+
+    if callback.is_safedrop_enabled() {
+        SafeDropCheck::new(tcx).start();
     }
 }
 

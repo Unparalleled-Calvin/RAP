@@ -3,7 +3,8 @@ use rustc_middle::mir::{TerminatorKind, Operand};
 use rustc_middle::mir::Operand::{Copy, Move, Constant};
 use rustc_data_structures::fx::FxHashSet;
 
-use crate::{rap_error, RapLogLevel, record_msg, RAP_LOGGER};
+use super::log::{RapLogLevel, record_msg, RAP_LOGGER};
+use crate::rap_error_;
 use log::Log;
 
 use super::graph::*;
@@ -34,7 +35,7 @@ impl<'tcx> SafeDropGraph<'tcx>{
                     	let place = match args[0] {
                         	Operand::Copy(place) => place,
                         	Operand::Move(place) => place,
-                        	_ => { rap_error!("Constant operand exists: {:?}", args[0]); return; }
+                        	_ => { rap_error_!("Constant operand exists: {:?}", args[0]); return; }
                     	};
                     	let drop_local = self.handle_projection(false, place.local.as_usize(), tcx, place.clone());
                     	let info = drop.source_info.clone();

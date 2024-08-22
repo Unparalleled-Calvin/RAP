@@ -18,6 +18,9 @@ const RAP_HELP: &str = r#"
 Usage:
     cargo rap [options...]
 
+Safedrop checking.
+    -S or -safedrop  command: "cargo rap -safedrop"
+
 Use-After-Free/double free detection.
     -F or -uaf       command: "cargo rap -uaf"
 
